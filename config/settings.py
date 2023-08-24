@@ -49,3 +49,12 @@ LOCALE_PATHS = ['movies/locale']
 
 # For Debug Toolbar
 INTERNAL_IPS = os.environ.get('INTERNAL_IPS').split(" ")
+
+AUTH_USER_MODEL = "movies.models.User" 
+
+AUTH_API_LOGIN_URL = "auth_app:8081/api/v1"
+
+AUTHENTICATION_BACKENDS = [
+    'movies.backends.CustomBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
+] 
