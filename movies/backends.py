@@ -10,16 +10,43 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+
 class CustomBackend(BaseBackend):
     def authenticate(self, request, username=None, password=None):
+
         url = settings.AUTH_API_LOGIN_URL
         payload = {'login': username, 'password': password}
         try:
-            login_response = requests.post(url + "/login", data=json.dumps(payload))
+            # отправка запроса с логином и паролем и получение аксес токена
+            login_response = requests.post(url + "/auth/login", data=json.dumps(payload))
             access_token = login_response.json()
+            # создание заголовка
             headers = {"Authorization": f"Bearer {access_token}"}
-            user_data_response = requests.get(url + "/me", headers=headers)
-            user_role_response = requests.get(url + "/role", headers=headers)
+            # получение пользователя
+            user_data_response = requests.get(url + "/auth/me", headers=headers)
+            # проверка на ошибку
+            user_data_response.raise_for_status()
+            # подготовка json
+            user = user_data_response.json()
+            # подготовка user_id
+            params = {"user_id": user.get("uuid")}
+            # получение user_role по user_id
+            user_role_response = requests.get(url + "/role/user", params=params, headers=headers)
+            # проверка на ошибку
+            user_role_response.raise_for_status()
+            # подготовка json
+            roles = user_role_response.json()
+            # подготовка списка имен
+            roles = [role.get("name") for role in roles]
+
+        # url = settings.AUTH_API_LOGIN_URL
+        # payload = {'login': username, 'password': password}
+        # try:
+        #     login_response = requests.post(url + "/login", data=json.dumps(payload))
+        #     access_token = login_response.json()
+        #     headers = {"Authorization": f"Bearer {access_token}"}
+        #     user_data_response = requests.get(url + "/me", headers=headers)
+        #     user_role_response = requests.get(url + "/role", headers=headers)
         except:
             return None
         
