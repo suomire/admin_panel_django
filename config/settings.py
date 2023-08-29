@@ -52,10 +52,8 @@ INTERNAL_IPS = os.environ.get('INTERNAL_IPS').split(" ")
 
 # AUTH_USER_MODEL = "movies.models.User"
 
-AUTH_API_LOGIN_URL = "http://auth_app:8081/api/v1"
-# AUTH_API_LOGIN_URL = "auth_app:8081/api/v1"
+AUTH_API_LOGIN_URL = "http://auth_app:8081/auth_app"
 
 AUTHENTICATION_BACKENDS = [
     'movies.backends.CustomBackend',
-    # 'django.contrib.auth.backends.ModelBackend',
-] 
+]
