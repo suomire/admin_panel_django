@@ -1,5 +1,9 @@
 # Application definition
 import os
+from dotenv import load_dotenv
+
+load_dotenv("config/.env")
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

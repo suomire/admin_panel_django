@@ -9,7 +9,6 @@ ENV DJANGO_SETTINGS_MODULE 'config.settings'
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-
 # Скопируйте в контейнер файлы, которые редко меняются
 COPY requirements.txt requirements.txt
 COPY uwsgi.ini uwsgi.ini
